@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Random;
 
 @RestController
 public class CustomerController {
@@ -53,7 +54,7 @@ public class CustomerController {
     // Create a customer
     @RequestMapping(value = "/customer", method = RequestMethod.POST)
     public HttpStatus createCustomers(@RequestBody Customer payload) {
-        this.Customers.put(this.Customers.size() + 1, payload);
+        this.Customers.put((new Random().nextInt() & Integer.MAX_VALUE) + 1, payload);
         return HttpStatus.OK;
     }
 
