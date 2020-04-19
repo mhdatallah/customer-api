@@ -43,3 +43,6 @@ In this project, I am creating a simple REST API to provide CRUD functionality f
 The customer records should ideally be stored in an external database. However, this is not the scope of this project. Therefore, ``` HashMap<Integer, Customer>``` was the data structure of choice due to its flexibility with records retrieval.
 
 The [Customer Controller](src/main/java/com/kavlad/customerapi/CustomerController.java) is responsible of handeling all the REST mappings.
+
+### Note on creating customers
+When creating a customer, a customer ID is being generated at run-time upon calling the ```createCustomers()``` method. This obviously is a huge design question, and generating the ID might depend on my other technical requirements; however, for simplicity, I have decided to generate random **positive** integers for the ID. The chance of collision is extremely low, so I decided to ignore handling that.
