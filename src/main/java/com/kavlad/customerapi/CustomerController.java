@@ -9,29 +9,29 @@ import java.util.Random;
 @RestController
 public class CustomerController {
 
-    private HashMap<Integer, Customer> customers = new HashMap<Integer, Customer>() {{
+    private HashMap<Long, Customer> customers = new HashMap<Long, Customer>() {{
 
         // Add a couple of customers for testing...
 
-        put(1, new Customer(
+        put((long) 1, new Customer(
                 "firstName1",
                 "lastName1",
                 "+973501111111",
                 "customer1@kavlad.com",
                 new Address(
-                        "type_A",
+                        0,
                         "Sharjah",
                         "UAE",
                         "Addres Line 1"
                 )
         ));
-        put(2, new Customer(
+        put((long) 2, new Customer(
                 "firstName2",
                 "lastName2",
                 "+971502222222",
                 "customer2@kavlad.com",
                 new Address(
-                        "type_A",
+                        1,
                         "Dubai",
                         "UAE",
                         "Addres Line 2"
@@ -41,7 +41,7 @@ public class CustomerController {
 
     // Get all customers
     @RequestMapping(value = "/customer", method = RequestMethod.GET)
-    public HashMap<Integer, Customer> getCustomers() {
+    public HashMap<Long, Customer> getCustomers() {
         return this.customers;
     }
 
@@ -54,7 +54,7 @@ public class CustomerController {
     // Create a customer
     @RequestMapping(value = "/customer", method = RequestMethod.POST)
     public HttpStatus createCustomers(@RequestBody Customer payload) {
-        this.customers.put((new Random().nextInt() & Integer.MAX_VALUE) + 1, payload);
+        this.customers.put(System.currentTimeMillis(), payload);
         return HttpStatus.OK;
     }
 
@@ -74,13 +74,15 @@ public class CustomerController {
 
     // Get all customers from this city
     @RequestMapping(value = "/city/{name}", method = RequestMethod.GET)
-    public HashMap<Integer, Customer> getCustomersByCity(@PathVariable("name") String city) {
-        HashMap<Integer, Customer> response = new HashMap<Integer, Customer>();
+    public HashMap<Long, Customer> getCustomersByCity(@PathVariable("name") String city) {
+        HashMap<Long, Customer> response = new HashMap<Long, Customer>();
         this.customers.forEach((key, val) -> {
-            if ((val.getAddress() != null) &&
-                    !(val.getAddress().getCity().isEmpty()) &&
-                    (val.getAddress().getCity().equals(city))) {
-                response.put(key, val);
+            if (val.getAddress() != null) {
+                if (!val.getAddress().getCity().isEmpty()) {
+                    if (val.getAddress().getCity().equals(city)) {
+                        response.put(key, val);
+                    }
+                }
             }
         });
         return response;
@@ -88,8 +90,8 @@ public class CustomerController {
 
     // Get all customers starting with the following prefix phone number
     @RequestMapping(value = "/phone/{prefix}", method = RequestMethod.GET)
-    public HashMap<Integer, Customer> getCustomersByPhone(@PathVariable("prefix") String prefix) {
-        HashMap<Integer, Customer> response = new HashMap<Integer, Customer>();
+    public HashMap<Long, Customer> getCustomersByPhone(@PathVariable("prefix") String prefix) {
+        HashMap<Long, Customer> response = new HashMap<Long, Customer>();
         this.customers.forEach((key, val) -> {
             if (val.getPhoneNumber().startsWith(prefix)) {
                 response.put(key, val);

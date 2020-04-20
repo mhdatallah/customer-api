@@ -2,19 +2,19 @@ package com.kavlad.customerapi;
 
 public class Address {
 
-    private String type;
+    private int type;
     private String city;
     private String country;
     private String addressLine;
 
-    public Address(String type, String city, String country, String addressLine) {
+    public Address(int type, String city, String country, String addressLine) {
         this.type = type;
         this.city = city;
         this.country = country;
         this.addressLine = addressLine;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -30,7 +30,7 @@ public class Address {
         this.addressLine = addressLine;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 

@@ -21,7 +21,7 @@ In this project, I am creating a simple REST API to provide CRUD functionality f
     "phoneNumber": "String",
     "email": "String",
     "address": {
-        "type": "String",
+        "type": int,
         "city": "String",
         "country": "String",
         "addressLine": "String"
@@ -33,7 +33,7 @@ In this project, I am creating a simple REST API to provide CRUD functionality f
 
 ```json
 {
-    "type": "String",
+    "type": int,
     "city": "String",
     "country": "String",
     "addressLine": "String"
